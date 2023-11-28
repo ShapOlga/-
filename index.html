@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница входа</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+</head>
+<body ng-app="myApp">
+    <div class="container" ng-controller="mainController">
+        <h1>Страница входа</h1>
+        <div class="login" ng-show="!loggedIn">
+            <h2>Вход / Регистрация</h2>
+            <form ng-submit="login()">
+                <label for="username">Имя пользователя:</label>
+                <input type="text" id="username" ng-model="username" required>
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" ng-model="password" required>
+                <button type="submit">Войти</button>
+            </form>
+            <form ng-submit="register()">
+                <label for="username">Имя пользователя:</label>
+                <input type="text" id="username" ng-model="username" required>
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" ng-model="password" required>
+                <button type="submit">Зарегистрироваться</button>
+            </form>
+        </div>
+        <div class="catalog" ng-show="loggedIn">
+            <h2>Каталог продуктов</h2>
+            <div class="product" ng-repeat="product in products">
+                <img ng-src="{{product.img}}" alt="{{product.title}}">
+                <h3>{{product.title}}</h3>
+                <p>{{product.text}}</p>
+                <button ng-click="selectProduct(product)">Подробнее</button>
+            </div>
+        </div>
+        <div class="details" ng-show="selectedProduct">
+            <h2>Детали продукта</h2>
+            <img ng-src="{{selectedProduct.img}}" alt="{{selectedProduct.title}}">
+            <h3>{{selectedProduct.title}}</h3>
+            <p>{{selectedProduct.text}}</p>
+            <h3>Отзывы</h3>
+            <div class="review" ng-repeat="review in reviews">
+                <p>{{review.text}}</p>
+                <span>Оценка: {{review.rate}}</span>
+                <span>Автор: {{review.created_by.username}}</span>
+            </div>
+            <form ng-submit="postReview()">
+                <label for="text">Текст отзыва:</label>
+                <textarea id="text" ng-model="text" required></textarea>
+                <label for="rate">Оценка:</label>
+                <select id="rate" ng-model="rate" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <button type="submit">Оставить отзыв</button>
+            </form>
+            <button ng-click="backToCatalog()">Назад к каталогу</button>
+        </div>
+    </div>
+</body>
+</html>
